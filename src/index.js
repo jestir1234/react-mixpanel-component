@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 export * from './MixPanelComponent';
 export const MixPanelContext = React.createContext();
 
+const MIXPANEL = 'mixpanel';
+
 class MixPanelProvider extends React.Component {
     state = {
         trackedEvents: {},
         mutationObserver: null,
-        isLoaded: false
+        isLoaded: false,
+        script: this.props.script || MIXPANEL
     }
 
     componentDidMount() {
@@ -38,7 +41,7 @@ class MixPanelProvider extends React.Component {
     mixPanelHasLoaded = mutations => {
         const scriptMutations = mutations.filter(mutation => mutation.addedNodes.length
             && mutation.addedNodes[0].nodeName === 'SCRIPT'
-            && mutation.addedNodes[0].src.includes('mixpanel'));
+            && mutation.addedNodes[0].src.includes(MIXPANEL));
         if (scriptMutations.length) {
             this.state.mutationObserver.disconnect();
             this.setState({ isLoaded: true });
@@ -49,7 +52,8 @@ class MixPanelProvider extends React.Component {
 }
 
 MixPanelProvider.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    script: PropTypes.string
 };
 
 export default MixPanelProvider;
