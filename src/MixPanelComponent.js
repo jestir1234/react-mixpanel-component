@@ -68,7 +68,10 @@ export class MixPanel extends Component {
 MixPanel.propTypes = {
     render: PropTypes.func,
     event: PropTypes.object,
-    callbacks: PropTypes.array
+    callbacks: PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.object
+    ]))
 };
 
 MixPanel.defaultProps = {
