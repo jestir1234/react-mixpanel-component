@@ -365,6 +365,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var MixPanelContext = exports.MixPanelContext = _react2.default.createContext();
 
+var MIXPANEL = 'mixpanel';
+
 var MixPanelProvider = function (_React$Component) {
     _inherits(MixPanelProvider, _React$Component);
 
@@ -382,10 +384,11 @@ var MixPanelProvider = function (_React$Component) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MixPanelProvider.__proto__ || Object.getPrototypeOf(MixPanelProvider)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             trackedEvents: {},
             mutationObserver: null,
-            isLoaded: false
+            isLoaded: false,
+            script: _this.props.script || MIXPANEL
         }, _this.mixPanelHasLoaded = function (mutations) {
             var scriptMutations = mutations.filter(function (mutation) {
-                return mutation.addedNodes.length && mutation.addedNodes[0].nodeName === 'SCRIPT' && mutation.addedNodes[0].src.includes('mixpanel');
+                return mutation.addedNodes.length && mutation.addedNodes[0].nodeName === 'SCRIPT' && mutation.addedNodes[0].src.includes(MIXPANEL);
             });
             if (scriptMutations.length) {
                 _this.state.mutationObserver.disconnect();
@@ -411,7 +414,6 @@ var MixPanelProvider = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            console.log('MIXPANEL STATE', this.state);
             return _react2.default.createElement(
                 MixPanelContext.Provider,
                 {
@@ -430,7 +432,8 @@ var MixPanelProvider = function (_React$Component) {
 }(_react2.default.Component);
 
 MixPanelProvider.propTypes = {
-    children: _propTypes2.default.node
+    children: _propTypes2.default.node,
+    script: _propTypes2.default.string
 };
 
 exports.default = MixPanelProvider;
@@ -554,7 +557,7 @@ var MixPanel = exports.MixPanel = function (_Component) {
 MixPanel.propTypes = {
     render: _propTypes2.default.func,
     event: _propTypes2.default.object,
-    callbacks: _propTypes2.default.array
+    callbacks: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.object]))
 };
 
 MixPanel.defaultProps = {

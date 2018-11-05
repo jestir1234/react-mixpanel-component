@@ -57,6 +57,7 @@ export class MixPanel extends Component {
 
         return eventHandler => {
             mixPanelContext.trackEvent(event);
+            window.mixpanel.identify();
             window.mixpanel.track(event.name, {
                 ...event.customProperties
             });
