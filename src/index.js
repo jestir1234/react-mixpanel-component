@@ -14,6 +14,9 @@ class MixPanelProvider extends React.Component {
     }
 
     componentDidMount() {
+        if (window.mixpanel) {
+            this.setState({ isLoaded: true }); 
+        }
         const mutationObserver = new MutationObserver(this.mixPanelHasLoaded);
 
         mutationObserver.observe(document.documentElement, {
