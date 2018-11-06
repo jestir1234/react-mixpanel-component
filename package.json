@@ -1,6 +1,6 @@
 {
     "name": "@mdnzyzy/react-mixpanel-component",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "description": "Mixpanel Context for handling mixpanel DOM triggers",
     "license": "MIT",
     "repository": "jestir1234/react-mixpanel-component",
